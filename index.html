@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaiju No.8 | Premium Stream</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e50914;
+            --primary-dark: #b20710;
+            --dark: #0f0f0f;
+            --dark-light: #181818;
+            --dark-lighter: #2a2a2a;
+            --gray: #a3a3a3;
+            --white: #ffffff;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--dark);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        @font-face {
+            font-family: 'Netflix Sans';
+            font-weight: 400;
+            src: url(https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Rg.woff2) format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Netflix Sans';
+            font-weight: 700;
+            src: url(https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Md.woff2) format('woff2');
+        }
+        
+        /* Kaiju Hero Section */
+        .kaiju-hero {
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, var(--dark) 90%),
+                        url('https://4kwallpapers.com/images/wallpapers/kaiju-no-8-3d-model-3840x2160-20434.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 4% 5%;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+        }
+        
+        .series-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+        
+        .series-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        .series-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .match-percent {
+            color: #46d369;
+            font-weight: 700;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            max-width: 80%;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background-color: var(--white);
+            color: var(--dark);
+        }
+        
+        .btn-primary:hover {
+            background-color: rgba(255,255,255,0.9);
+            transform: scale(1.05);
+        }
+        
+        .btn-secondary {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: var(--white);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(109, 109, 110, 0.4);
+            transform: scale(1.05);
+        }
+        
+        /* Video Player Section */
+        .video-section {
+            padding: 0 4%;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .video-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        
+        .video-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://4kwallpapers.com/images/wallpapers/kaiju-no-8-3d-model-3840x2160-20434.jpg') center/cover;
+            filter: blur(5px) brightness(0.4);
+            z-index: -1;
+        }
+        
+        video {
+            width: 100%;
+            background-color: #000;
+        }
+        
+        /* Episodes Section */
+        .episodes-section {
+            padding: 0 4% 60px;
+        }
+        
+        .episode-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        
+        .episode-card {
+            background-color: var(--dark-light);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .episode-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .episode-card.active {
+            border: 2px solid var(--primary);
+        }
+        
+        .episode-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0,0,0,0.7);
+            color: var(--white);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            z-index: 2;
+        }
+        
+        .episode-thumbnail {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            background: url('https://4kwallpapers.com/images/wallpapers/kaiju-no-8-3d-model-3840x2160-20434.jpg') center/cover;
+            position: relative;
+        }
+        
+        .episode-thumbnail::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+            z-index: 1;
+        }
+        
+        .episode-info {
+            padding: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .episode-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .episode-duration {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            grid-column: 1 / -1;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 20px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .kaiju-hero {
+                height: 60vh;
+            }
+            
+            .series-title {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .kaiju-hero {
+                height: 50vh;
+                min-height: 400px;
+                padding-bottom: 30px;
+            }
+            
+            .series-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+            }
+            
+            .hero-description {
+                max-width: 100%;
+            }
+            
+            .episode-list {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .kaiju-hero {
+                height: 40vh;
+                min-height: 350px;
+            }
+            
+            .series-title {
+                font-size: 2rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .episode-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Kaiju Hero Section -->
+    <section class="kaiju-hero">
+        <div class="hero-content">
+            <h1 class="series-title">KAIJU NO.8</h1>
+            <div class="series-meta">
+                <span class="match-percent">98% Match</span>
+                <span>2024</span>
+                <span><i class="fas fa-star" style="color: #f5c518;"></i> 8.5</span>
+                <span>1 Season</span>
+            </div>
+            <p class="hero-description">
+                In a world plagued by monsters, Kafka Hibino becomes the very creature he swore to destroy.
+                Now he must fight to protect humanity while hiding his monstrous secret.
+            </p>
+            <div class="hero-actions">
+                <button class="btn btn-primary" id="playBtn">
+                    <i class="fas fa-play"></i> Play
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Video Player Section -->
+    <section class="video-section">
+        <h2 class="section-title">Now Playing</h2>
+        <div class="video-container">
+            <video id="videoPlayer" controls></video>
+        </div>
+    </section>
+    
+    <!-- Episodes Section -->
+    <section class="episodes-section">
+        <h2 class="section-title">Episodes</h2>
+        <div class="episode-list" id="episodeList">
+            <div class="loading">
+                <div class="spinner"></div>
+                <div>Loading episodes...</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Configuration
+        const config = {
+            bucketName: 'my-flix13456',
+            bucketRegion: 'us-east-1',
+            episodes: [
+                'Kaiju.No.8.S01E01..mkv',
+                'Kaiju.No.8.S01E02..mkv',
+                'Kaiju.No.8.S01E03..mkv',
+                'Kaiju.No.8.S01E04.mkv',
+                'Kaiju.No.8.S01E05..mkv',
+                'Kaiju.No.8.S01E06..mkv',
+                'Kaiju.No.8.S01E07.mkv',
+                'Kaiju.No.8.S01E08..mkv',
+                'Kaiju.No.8.S01E09..mkv',
+                'Kaiju.No.8.S01E10..mkv',
+                'Kaiju.No.8.S01E11..mkv',
+                'Kaiju.No.8.S01E12..mkv'
+            ]
+        };
+
+        // Generate S3 URL
+        function getVideoUrl(filename) {
+            return `https://${config.bucketName}.s3.${config.bucketRegion}.amazonaws.com/${encodeURIComponent(filename)}`;
+        }
+
+        // Format episode name
+        function formatEpisodeName(filename) {
+            const epNum = filename.match(/S01E(\d+)/i)[1];
+            return `Episode ${parseInt(epNum)}`;
+        }
+
+        // Initialize the app
+        function initApp() {
+            const episodes = config.episodes.map(filename => ({
+                filename,
+                name: formatEpisodeName(filename),
+                url: getVideoUrl(filename),
+                number: filename.match(/S01E(\d+)/i)[1]
+            })).sort((a, b) => a.filename.localeCompare(b.filename));
+
+            renderEpisodes(episodes);
+            if (episodes.length > 0) {
+                playEpisode(episodes[0]);
+            }
+        }
+
+        // Render episodes list
+        function renderEpisodes(episodes) {
+            const container = document.getElementById('episodeList');
+            container.innerHTML = '';
+
+            episodes.forEach(episode => {
+                const card = document.createElement('div');
+                card.className = 'episode-card';
+                card.innerHTML = `
+                    <div class="episode-number">${episode.number}</div>
+                    <div class="episode-thumbnail"></div>
+                    <div class="episode-info">
+                        <div class="episode-title">${episode.name}</div>
+                        <div class="episode-duration">24 min</div>
+                    </div>
+                `;
+                card.addEventListener('click', () => playEpisode(episode));
+                container.appendChild(card);
+            });
+        }
+
+        // Play episode
+        function playEpisode(episode) {
+            const player = document.getElementById('videoPlayer');
+            player.src = episode.url;
+            player.load();
+            player.play().catch(e => console.log('Auto-play prevented:', e));
+
+            // Update active state
+            document.querySelectorAll('.episode-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        // Play button in hero section
+        document.getElementById('playBtn').addEventListener('click', () => {
+            const firstEpisodeCard = document.querySelector('.episode-card');
+            if (firstEpisodeCard) firstEpisodeCard.click();
+        });
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

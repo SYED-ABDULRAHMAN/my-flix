@@ -21,3 +21,17 @@ jobs:
         run: |
           docker build -t syedabdulrahman134/my-flix:latest .
           docker push syedabdulrahman134/my-flix:latest
+      - name: Report CI/CD Status to Lambda
+        if: always()
+        run: |
+          curl -X POST https://s9vgu74kk6.execute-api.us-east-1.amazonaws.com/default/CICDPipelineNotifier \
+            -H "Content-Type: application/json" \
+            -d '{
+              "status": "${{ job.status }}",
+              "stage": "build & push",
+              "commit": "${{ github.sha }}",
+              "branch": "${{ github.ref_name }}",
+              "repository": "${{ github.repository }}",
+              "message": "Docker image pushed",
+              "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+            }'

@@ -1,4 +1,3 @@
-
 name: Simple Docker Push
 
 on:
@@ -17,21 +16,30 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build and push
         run: |
           docker build -t syedabdulrahman134/my-flix:latest .
           docker push syedabdulrahman134/my-flix:latest
-      - name: Report CI/CD Status to Lambda
+
+      - name: Report CI/CD Status to Lambda (and Slack via SNS)
         if: always()
         run: |
+          STATUS="${{ job.status }}"
+          EMOJI=":white_check_mark:"
+          if [ "$STATUS" != "success" ]; then
+            EMOJI=":x:"
+          fi
+          
           curl -X POST https://s9vgu74kk6.execute-api.us-east-1.amazonaws.com/default/CICDPipelineNotifier \
             -H "Content-Type: application/json" \
-            -d '{
-              "status": "${{ job.status }}",
-              "stage": "build & push",
-              "commit": "${{ github.sha }}",
-              "branch": "${{ github.ref_name }}",
-              "repository": "${{ github.repository }}",
-              "message": "Docker image pushed",
-              "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
-            }'
+            -d "{
+              \"status\": \"$STATUS\",
+              \"stage\": \"Build & Push\",
+              \"commit\": \"${{ github.sha }}\",
+              \"branch\": \"${{ github.ref_name }}\",
+              \"repository\": \"${{ github.repository }}\",
+              \"message\": \"$EMOJI Docker image push completed\",
+              \"commit_url\": \"https://github.com/${{ github.repository }}/commit/${{ github.sha }}\",
+              \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+            }"
